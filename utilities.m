@@ -18,7 +18,7 @@ c_x = 0; c_y = 1; c_z = 4;
 L_0 = -5;
 L_fd = 0;
 
-h=0.5 ; % Time step
+h = 0.05 ; % Time step
 
 %% Landing Scenario / Initial Conditions
 
