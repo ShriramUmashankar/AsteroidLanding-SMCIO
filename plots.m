@@ -1,55 +1,73 @@
-clc; close all; clear;
+clear; close all; clc;
 
-utilities
-del_m = 0;
-m = m_0 + del_m;
-r = r_0;
-v = v_0;
-
-position = r_0;
-velocity = v_0;
-acceleration = a;
-time = [0];
-iter = 1;
-mass =[m];
-thrust = [0];
-controller_effort = [0];
-sliding_var = [0];
+load accl.mat
+load posn.mat
+load vel.mat
+load time.mat
+load controller_effort.mat
+load mass.mat
+load thrust.mat
 
 
-while R > 0.1
-    %loop
-    [g] = GetGravity(r,v,w);
-    [e, a1, a2, a3, a4, K] = HeadingErrorDynamics(r_fd,r,v,g);
-    [a0,se_dot] = SlidingVariable(e,a4,k_e,e_e);
-    [r,V_l,V_u] = VelocityProfile(r, r_0,v ,v_0, r_fd, h, b_x, b_y, b_z, c_x, c_y, c_z);
-    [x] = ConvexOptim(V_l, V_u, a0, a1, a2, a3, v, g, h, m, T_max, a);
-    a = x;
-    a_x = x(1); a_y = x(2); a_z = x(3);
-    T = sqrt(a_x^2 + a_y^2 + a_z^2)*m;
-    del_m = -T*h/c;
-    m = m + del_m;
-    v = v + (a + g)*h ;
-    R = norm(r_fd - r);
-    disp(R);
+subplot(3,2,1);
+plot(time(2:end), acceleration(2:end,1),"LineWidth",1,"DisplayName",'a_x')
+hold on
+plot(time(2:end), acceleration(2:end,2),"LineWidth",1,"DisplayName",'a_y')
+plot(time(2:end), acceleration(2:end,3),"LineWidth",1,"DisplayName",'a_z')
+xlabel('Time')
+xlim([0 time(end,1)]);
+ylabel('Acceleration')
+title('Acceleration vs Time')
+legend()
+grid("on")
 
-    position = cat(1,position,r);
-    velocity = cat(1,velocity,v);
-    acceleration = cat(1,acceleration,a);
-    time = cat(1,time,iter*h);
-    iter = iter + 1;
-    mass = cat(1,mass,m);
-    thrust = cat(1,thrust,T);
-    controller_effort = cat(1,controller_effort,controller_effort(end,1)+norm(a)*h);
-    sliding_var = cat(1,sliding_var,e);
+subplot(3,2,2);
+plot(time, velocity(:,1),"LineWidth",1,"DisplayName",'v_x')
+hold on
+plot(time, velocity(:,2),"LineWidth",1,"DisplayName",'v_y')
+plot(time, velocity(:,3),"LineWidth",1,"DisplayName",'v_z')
+xlabel('Time')
+xlim([0 time(end,1)]);
+ylabel('Velocity')
+title('Velocity vs Time')
+legend()
+grid("on")
 
-end    
+subplot(3,2,3);
+plot(time, position(:,1),"LineWidth",1,"DisplayName",'x')
+hold on
+plot(time, position(:,2),"LineWidth",1,"DisplayName",'y')
+plot(time, position(:,3),"LineWidth",1,"DisplayName",'z')
+xlabel('Time')
+xlim([0 time(end,1)]);
+ylabel('Position')
+title('Position vs Time')
+legend()
+grid("on")
 
-save("accl.mat","acceleration")
-save("posn.mat","position");
-save("vel.mat","velocity");
-save("controller_effort.mat","controller_effort");
-save("thrust.mat","thrust");
-save("time.mat","time");
-save("mass.mat","mass");
-save("sliding_var.mat","sliding_var");
+subplot(3,2,4);
+plot(time, mass(:,1),"LineWidth",1,"DisplayName",'mass')
+xlabel('Time')
+xlim([0 time(end,1)]);
+ylabel('Mass')
+title('Mass vs Time')
+legend()
+grid("on")
+
+subplot(3,2,5);
+plot(time(2:end), thrust(2:end,1),"LineWidth",1,"DisplayName",'Thrust')
+xlabel('Time')
+xlim([0 time(end,1)]);
+ylabel('Thrust')
+title('Thrust vs Time')
+legend()
+grid("on")
+
+subplot(3,2,6);
+plot(time, controller_effort(:,1),"LineWidth",1,"DisplayName",'effort')
+xlabel('Time')
+xlim([0 time(end,1)]);
+ylabel('Effort')
+title('Effort vs Time')
+legend()
+grid("on")
