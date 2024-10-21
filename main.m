@@ -9,15 +9,15 @@ v = v_0;
 position = r_0;
 velocity = v_0;
 acceleration = a;
-time = [0];
+time = 0;
 iter = 1;
-mass =[m];
-thrust = [0];
-controller_effort = [0];
-sliding_var = [0];
+mass = m;
+thrust = 0;
+controller_effort = 0;
+sliding_var = 0;
 
 
-while R > 0.1
+while R > 0.08   
     %loop
     [g] = GetGravity(r,v,w);
     [e, a1, a2, a3, a4, K] = HeadingErrorDynamics(r_fd,r,v,g);
@@ -31,7 +31,6 @@ while R > 0.1
     m = m + del_m;
     v = v + (a + g)*h ;
     R = norm(r_fd - r);
-    disp(R);
 
     position = cat(1,position,r);
     velocity = cat(1,velocity,v);
@@ -53,3 +52,13 @@ save("thrust.mat","thrust");
 save("time.mat","time");
 save("mass.mat","mass");
 save("sliding_var.mat","sliding_var");
+
+fprintf('Final mass is %s .\n', mass(end,1));
+fprintf('Change in mass is %s .\n', mass(1,1) - mass(end,1));
+fprintf('controller effort is %s .\n',controller_effort(end,1));
+fprintf('Final time is %s (s) .\n',time(end,1));
+fprintf('Final position is rx = %s(m) ry = %r(m) rz = %t(m).\n', position(end,1), position(end,2), position(end,3));
+fprintf('Final position is vx = %s(m) vy = %r(m) vz = %t(m).\n', velocity(end,1), velocity(end,2), velocity(end,3));
+fprintf(" Mod velocity is %s .\n",norm(velocity(end,:)));
+
+disp("Simulation done, Mat files created and saved");
