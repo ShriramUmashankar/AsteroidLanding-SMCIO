@@ -19,26 +19,27 @@ function [r,V_l,V_u] = VelocityProfile(r, r_0,v ,v_0, r_fd, h, b_x, b_y, b_z, c_
     zeta_z = (r_zn - r_zfd)/(r_z0 - r_zfd);
     
     %Max velocity bound for next time step
-    V_xm = abs(v_x0)*log(1 + b_x*zeta_x + c_x*(zeta_x)^2);
-    V_ym = abs(v_y0)*log(1 + b_y*zeta_y + c_y*(zeta_y)^2);
-    V_zm = abs(v_z0)*log(1 + b_z*zeta_z + c_z*(zeta_z)^2);
+    V_xm = abs(v_x0)*log10(1 + b_x*zeta_x + c_x*(zeta_x)^2);
+    V_ym = abs(v_y0)*log10(1 + b_y*zeta_y + c_y*(zeta_y)^2);
+    V_zm = abs(v_z0)*log10(1 + b_z*zeta_z + c_z*(zeta_z)^2);
 
     V_m = [V_xm , V_ym, V_zm];
-
+    V_l = [0 0 0];
+    V_u = [0 0 0];
     for i = 1:3
         if sign(v_0(i)) == sign(r_fd(i) - r_0(i))
             if sign(v_0(i)) == 1
-                V_l = 0.8* V_m;
-                V_u = V_m;
+                V_l(i) = 0.8* V_m(i);
+                V_u(i) = V_m(i);
             end
 
             if sign(v_0(i)) == -1
-                V_l = -1* V_m;
-                V_u = -0.8*V_m;
+                V_l(i) = -1* V_m(i);
+                V_u(i) = -0.8*V_m(i);
             end
         else
-            V_l = -1* V_m;
-            V_u = 1*V_m;
+            V_l(i) = -1* V_m(i);
+            V_u(i) = 1*V_m(i);
         end    
     end      
     r = [r_xn, r_yn, r_zn];
