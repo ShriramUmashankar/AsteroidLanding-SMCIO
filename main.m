@@ -57,8 +57,15 @@ fprintf('Final mass is %s .\n', mass(end,1));
 fprintf('Change in mass is %s .\n', mass(1,1) - mass(end,1));
 fprintf('controller effort is %s .\n',controller_effort(end,1));
 fprintf('Final time is %s (s) .\n',time(end,1));
-fprintf('Final position is rx = %s(m) ry = %r(m) rz = %t(m).\n', position(end,1), position(end,2), position(end,3));
-fprintf('Final position is vx = %s(m) vy = %r(m) vz = %t(m).\n', velocity(end,1), velocity(end,2), velocity(end,3));
-fprintf(" Mod velocity is %s .\n",norm(velocity(end,:)));
-
-disp("Simulation done, Mat files created and saved");
+disp("---------------------------------------------------")
+fprintf('Final position is rx = %s(m)\n', position(end,1));
+fprintf('Final position is ry = %s(m)\n', position(end,2));
+fprintf('Final position is rz = %s(m)\n', position(end,3));
+disp("---------------------------------------------------")
+fprintf('Final velocity is vx = %s(m)\n', velocity(end,1));
+fprintf('Final velocity is vy = %s(m)\n', velocity(end,2));
+fprintf('Final velocity is vz = %s(m)\n', velocity(end,3));
+disp("---------------------------------------------------")
+fprintf("Mod velocity is %s .\n",norm(velocity(end,:)));
+disp("---------------------------------------------------")
+disp("Simulation Done, Mat files saved")
