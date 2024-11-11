@@ -37,7 +37,11 @@ at = 3*9.8;
 dydt(5) = Vt*cos(alphaT - theta_t)*(at/Vt - dydt(3));
 dydt(6) = -Vt*sin(alphaT - theta_t)*(at/Vt - dydt(3));
 
-ap = Km*R_p*(theta_t - theta_p);
+%ap = -Km*R_p*(theta_t - theta_p);
+
+theta_ddot = (dydt(5) - dydt(1)*dydt(3))/R_t;
+ap = Km*R_p*(theta_t - theta_p) + 2*dydt(2)*dydt(3) + R_p*theta_ddot;
+
 dydt(7) = Vp*cos(alphaP - theta_p)*(ap/Vp - dydt(4));
 dydt(8) = -Vp*sin(alphaP - theta_p)*(ap/Vp - dydt(4));
 
