@@ -4,7 +4,7 @@ global Vp
 global Vt
 global omega_T
 
-Ct = 0.8;
+Ct = 1;
 
 dydt = zeros(size(y));
 
@@ -28,11 +28,13 @@ dydt(2) = Vtheta/R;
 dydt(3) = -(1-Ct)*(Vr + Vp)*dydt(2);
 dydt(4) = (1-Ct)*(Vtheta)*(dydt(2));
 
+% dydt(4) = (dydt(2)-omega_T)*Vtheta;
+% dydt(3) = -(Vr + Vp)*(dydt(2)-omega_T);
+
 aP = Vp * dydt(2);
 dydt(5) =aP/Vp;
-%dydt(6) = omega_T; 
 
-%AlphaT_dot = Ct * theta_dot
+%dydt(6) = omega_T; 
 dydt(6) = Ct * dydt(2);
 
 %% dynamics 
