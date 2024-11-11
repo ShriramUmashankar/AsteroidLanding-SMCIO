@@ -25,8 +25,8 @@ dydt(2) = (Vt * sin(alphaT - theta) - Vp*sin(del))/R;
 dydt(3) = dydt(2);
 dydt(4) = Ct*dydt(2);
 
-dydt(5) = (dydt(2) - dydt(4))*(R*dydt(2) + Vp*sin(del));
-dydt(6) = (-dydt(2) + dydt(4))*(dydt(1) + Vp*cos(del));
+dydt(6) = (Ct-1)*(Vr + Vp*cos(del))*dydt(2);
+dydt(5) = -(Ct-1)*(Vtheta + Vp*sin(del))*(dydt(2));
 
 %% dynamics 
 dydt(7) = Vt*cos(alphaT);

@@ -1,8 +1,8 @@
 close all; clear; clc;
 global Vt Vp omega_T del Ct;
 
-k = 1.5;
-Ct = 1;
+k = 1.2;
+Ct = 1.2;
 
 Vt = 150;
 Vp = Vt*k;
@@ -14,7 +14,7 @@ alphaP0 = 55 *pi/180;
 del = alphaP0 - theta0 ;
 disp(del);
 
-alphaT0 = 170 *pi/180;
+alphaT0 = 60 *pi/180;
 Vr0 = Vt * cos(alphaT0 - theta0) - Vp * cos(alphaP0 - theta0);
 Vtheta0 = Vt * sin(alphaT0 - theta0) - Vp * sin(alphaP0 - theta0);
 xp0 = 0;
@@ -25,7 +25,7 @@ yt0 = R0*sin(theta0);
 
 
 tstep = 0.001;
-tend = 100;
+tend = 1000;
 tspan =  0:tstep:tend;
 options = odeset('Events', @(t, y) event_terminal(t, y));
 
